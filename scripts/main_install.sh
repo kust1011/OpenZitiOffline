@@ -8,9 +8,9 @@ echo "Starting offline Ziti installation..."
 ./setup_environment.sh
 # ./install_ziti.sh
 
-source ./ziti-cli-functions.sh
+source /dev/stdin <<< cat ./ziti-cli-functions.sh
 expressInstall
 
-# ./setup_ziti_services.sh
+./setup_ziti_services.sh
 
 echo "Ziti has been installed and started successfully."
