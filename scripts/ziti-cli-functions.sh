@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -uo pipefail
-set -x
+# set -x
 
 # Global Variables
 ASCI_WHITE='\033[01;37m'
