@@ -66,6 +66,25 @@ function _setup_ziti_services {
     echo "Controller 和 Router 的 Systemd 服務已啟動並設置為開機自動啟動。"
 }
 
+function _undo_setup_ziti_services {
+    # 停止服務
+    sudo systemctl stop ziti-controller
+    sudo systemctl stop ziti-router
+
+    # 禁用服務自動啟動
+    sudo systemctl disable ziti-controller
+    sudo systemctl disable ziti-router
+
+    # 刪除 Systemd 服務檔案
+    sudo rm -f /etc/systemd/system/ziti-controller.service
+    sudo rm -f /etc/systemd/system/ziti-router.service
+
+    # 重新載入 systemd 管理器配置
+    sudo systemctl daemon-reload
+
+    echo "Controller 和 Router 的 Systemd 服務已停止並刪除。"
+}
+
 
 echo "開始離線 Ziti 安裝..."
 
@@ -93,4 +112,7 @@ createRouterSystemdFile "${ZITI_ROUTER_NAME}"
 _setup_ziti_services
 echo "--- 已建立服務單元 ---"
 
-echo "Ziti 已安裝並啟動成功。"
+source ~/.ziti/quickstart/$(hostname -s)/$(hostname -s).env >>  .bashrc
+echo -e "\n--- 已添加環境變數 ---"
+
+echo -e "\nZiti 已安裝並啟動成功。"
